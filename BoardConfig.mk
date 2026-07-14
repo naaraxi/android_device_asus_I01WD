@@ -63,7 +63,13 @@ DEVICE_FRAMEWORK_MANIFEST_FILE += $(DEVICE_PATH)/framework_manifest.xml
 BOARD_VNDK_VERSION := current
 
 # ANT+
-BOARD_ANT_WIRELESS_DEVICE := "qualcomm-hidl"
+# Disabled: the ANT HAL (libantradio) only builds when QCPATH is set, and the
+# prebuilt HIDL blobs are dropped in proprietary-files.txt. With the flag set,
+# external/ant-wireless still defines the antradio_app executable, which then
+# fails the link-type check against the never-built libantradio. Unsetting it
+# skips external/ant-wireless/ant_native entirely. ANT+ was non-functional here
+# regardless. Re-enable only alongside a buildable libantradio + its blobs.
+# BOARD_ANT_WIRELESS_DEVICE := "qualcomm-hidl"
 
 # APEX
 DEXPREOPT_GENERATE_APEX_IMAGE := true
